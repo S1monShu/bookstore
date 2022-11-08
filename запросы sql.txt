@@ -1,0 +1,101 @@
+SELECT
+
+books.name AS 'Название',
+
+(SELECT GROUP_CONCAT(author.name SEPARATOR ', ') FROM author, books_author WHERE
+author.id_author = books_author.id_author AND
+books_author.id_book = books.id) AS 'Авторы',
+
+(SELECT GROUP_CONCAT(genres.genre SEPARATOR ', ') FROM genres, books_genres WHERE
+genres.id_genres = books_genres.id_genre AND
+books_genres.id_book = books.id) AS 'Жанры'
+
+FROM books
+
+-----Вывод названия, авторов и жанров
+
+SELECT
+
+books.name AS 'Название',
+books.image AS 'Изображение',
+books.rate AS 'Оценка',
+books.date AS 'Дата выпуска',
+
+(SELECT GROUP_CONCAT(author.name SEPARATOR ', ') FROM author, books_author WHERE
+author.id_author = books_author.id_author AND
+books_author.id_book = books.id) AS 'Авторы',
+
+(SELECT GROUP_CONCAT(genres.genre SEPARATOR ', ') FROM genres, books_genres WHERE
+genres.id_genres = books_genres.id_genre AND
+books_genres.id_book = books.id) AS 'Жанры'
+
+FROM books
+
+
+--------Вывод всего
+
+
+SELECT
+
+books.name AS 'Название',
+books.image AS 'Изображение',
+books.rate AS 'Оценка',
+books.date AS 'Дата выпуска',
+
+(SELECT GROUP_CONCAT(author.name SEPARATOR ', ') FROM author, books_author WHERE
+author.id_author = books_author.id_author AND
+books_author.id_book = books.id) AS 'Авторы',
+
+(SELECT GROUP_CONCAT(genres.genre SEPARATOR ', ') FROM genres, books_genres WHERE
+genres.id_genres = books_genres.id_genre AND
+books_genres.id_book = books.id) AS 'Жанры'
+
+FROM books
+
+WHERE books.name = 'Стальной Алхимик. Книга 17'
+
+
+----------Вывод полной информации по книге
+
+
+SELECT
+
+books.name AS 'Название',
+books.image AS 'Изображение',
+
+(SELECT GROUP_CONCAT(author.name SEPARATOR ', ') FROM author, books_author WHERE
+author.id_author = books_author.id_author AND
+books_author.id_book = books.id) AS 'Авторы'
+
+FROM books, genres, books_genres
+
+WHERE genres.id_genres = books_genres.id_genre AND 
+books_genres.id_book = books.id AND
+genres.genre = '%Боевик%'
+
+
+--------Вывод по жанру
+
+
+SELECT
+
+books.name AS 'Название',
+books.image AS 'Изображение',
+
+(SELECT GROUP_CONCAT(author.name SEPARATOR ', ') FROM author, books_author WHERE
+author.id_author = books_author.id_author AND
+books_author.id_book = books.id) AS 'Авторы'
+
+FROM books, author, books_author WHERE
+author.id_author = books_author.id_author AND
+books_author.id_book = books.id AND 
+
+author.name LIKE '%Jump Comics%'
+
+
+------Вывод по автору
+
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.+)$ index.php?q=$1 [L,QSA]
